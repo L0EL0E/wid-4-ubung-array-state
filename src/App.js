@@ -2,6 +2,12 @@ import "./app.css";
 import { useState } from "react";
 
 function App() {
+const [todoListe, setTodoListe] = useState(["Schlafen", "Essen"]);
+const [aktuellesTodo, setAktuellesTodo] = useState("");
+const removeTodo = (index) => {
+  const neueTodoListe = todoListe.filter((todo, i) => index !== i); 
+  setTodoListe(neueTodoListe)}
+
   return (
     <div id="app">
       <header>Übung WID 4 - Array State </header>
@@ -9,18 +15,20 @@ function App() {
       <div id="container">
         {/* ---- Hinzufügen von Todos ----  */}
         <div id="eingabeZeile">
-          <input type="text" />
-          <button className="Button">Todo hinzufügen</button>
+          <input type="text" onChange={(event) => setAktuellesTodo(event.target.value)}/>
+          <button className="Button" onClick={() => setTodoListe([...todoListe, aktuellesTodo])}>
+            Todo hinzufügen</button>
         </div>
         <hr />
         {/* ---- Anzeigen von Todos ----  */}
         <ol>
-          <li>
-            <div className="todoListe">
-              <p>Schlafen</p>
-              <button>Todo löschen</button>
-            </div>
-          </li>
+          {todoListe.map((todo, index) => (
+            <div className="todoListe" key= {index}>
+              <li>{todo}</li>
+              <button onClick={() => removeTodo(index)}>
+                Todo löschen</button>
+              </div>
+            ))}
         </ol>
       </div>
     </div>
